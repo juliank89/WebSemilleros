@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="head">
+        <title>Crear Producto</title>
+    </ui:define>
+
+    <ui:define name="header">
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:messages id="msgs" />
+            <h:panelGrid  id="grid" columns="2">
+                <p:outputLabel for="tipoProductoSelect" value="Tipo de Producto" />
+                <p:selectOneMenu  var="tProducto" converter="tipoProductoConverter" id="tipoProductoSelect" value="#{detalleSemillero.productoCrear.tipoproducto}" required="true" requiredMessage="Seleccione un Tipo de Producto">
+                    <f:selectItem  itemLabel="Seleccione un tipo de Producto" itemValue="" />  
+                    <f:selectItems value="#{detalleSemillero.listaTipoProductos}" var="tipo" itemLabel="#{tipo.nombreproducto}" itemValue="#{tipo}"/>
+                    <p:column >
+                        #{tProducto.nombreproducto}
+                    </p:column>
+                </p:selectOneMenu>
+
+                <p:outputLabel for="nombreProducto" value="Nombre del Producto" />
+                <p:inputText required="true" requiredMessage="El Nombre del Producto es Requerido" id="nombreProducto" value="#{detalleSemillero.productoCrear.nombreproducto}" style="width: 100%" />
+
+                <p:outputLabel for="descripcionProducto" value="Descripción del Producto" />
+                <p:inputTextarea id="descripcionProducto" value="#{detalleSemillero.productoCrear.descripcion}" autoResize="false" style="width: 100%" />
+
+                <p:commandButton ajax="false" value="Submit" actionListener="#{detalleSemillero.saveProducto}"  />
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+        
+    </ui:define>
+
+    <ui:define name="footer">
+        
+    </ui:define>
+</ui:composition>

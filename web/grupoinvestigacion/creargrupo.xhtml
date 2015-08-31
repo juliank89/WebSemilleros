@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <title>Crear Grupo de Investigación</title>
+    </ui:define>
+
+    <ui:define name="header">
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:messages id="msgs" />
+            <p:panelGrid columns="2" style="width: 100%;font-size: medium" id="grid" >
+                <f:facet name="header">
+                    Crear Grupo de Investigación
+                </f:facet>
+                <p:column style="width: 40%" >
+                    <p:outputLabel for="nombreCentro" value="Nombre del Centro de Investigación:" />
+                </p:column>
+
+                <p:column style="width: 60%">
+                    <p:selectOneMenu style="width: 100%" var="centroInvestigacion" converter="centroConverter" id="nombreCentro" value="#{crearGrupoBean.grupoInvestigacion.idcentro}" required="true" requiredMessage="Seleccione un Centro de Investigación">
+                        <f:selectItem  itemLabel="Seleccione un centro de Investigación" itemValue="" />  
+                        <f:selectItems value="#{crearGrupoBean.listaCentrosInvestigacion}" var="centro" itemLabel="#{centro.nombrecentro}" itemValue="#{centro}"/>
+                        <p:column >
+                            #{centroInvestigacion.descripcion}
+                        </p:column>
+                    </p:selectOneMenu>
+                </p:column>
+
+                <p:column>
+                    <p:outputLabel for="nombreGrupo" value="Nombre del Grupo de Investigación:" />
+                </p:column>
+                <p:column>
+                    <p:inputText style="width: 100%" id="nombreGrupo" value="#{crearGrupoBean.grupoInvestigacion.nombregrupo}" required="true" requiredMessage="El nombre del grupo de investigación es requerido"> 
+                        <p:ajax update="msgs" event="keyup"  />
+                    </p:inputText>
+                </p:column>
+
+                <p:column>
+                    <p:outputLabel for="descripcionGrupo" value="Descripción:" />
+                </p:column>
+                <p:column>
+                    <p:inputText style="width: 100%" id="descripcionGrupo" value="#{crearGrupoBean.grupoInvestigacion.descripcion}" />
+                </p:column>
+
+            </p:panelGrid>
+            <p:commandButton update="msgs" id="botonAgregarGrupo" value="Guardar" actionListener="#{crearGrupoBean.CrearGrupo(actionEvent)}"></p:commandButton>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+    </ui:define>
+
+    <ui:define name="footer">
+    </ui:define>
+
+</ui:composition>

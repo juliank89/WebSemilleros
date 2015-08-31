@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        
+    </ui:define>
+
+    <ui:define name="header">
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:messages id="msgs" />
+            <p:dataTable id="dataListaSemilleros" var="semillero" value="#{editarSemillero.listaSemilleros}" paginator="true" rows="20">
+                <p:ajax event="rowEdit" listener="#{editarRedBean.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{editarRedBean.onRowCancel}" update=":form:msgs"/>
+                <p:column style="vertical-align: top;width:190px" filterBy="#{semillero.nombresemillero}" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre" />
+                    </f:facet>
+                    <h:outputText value="#{semillero.nombresemillero}" />
+                </p:column>
+                <p:column style="vertical-align: top" filterBy="#{semillero.idgrupo}" headerText="Grupo de Investigación" filterMatchMode="in">
+                    <f:facet name="filter">
+                        <p:selectCheckboxMenu converter="grupoConverter" label="Grupo" onchange="PF('listSemillero').filter()" >
+                            <f:selectItems value="#{consultarSemillero.listaGrupos}" var="grupo"  itemLabel="#{grupo.nombregrupo}" />
+                        </p:selectCheckboxMenu>
+                    </f:facet>
+                    <h:outputText value="#{semillero.idgrupo.nombregrupo}" />
+                </p:column>
+                <p:column style="vertical-align: top;width:80px" filterMatchMode="exact" headerText="Estado" filterBy="#{semillero.estado}">
+                    <f:facet name="filter" >
+                        <p:selectOneMenu onchange="PF('listSemillero').filter()">
+                            <f:converter converterId="javax.faces.Boolean" />
+                            <f:selectItem itemLabel="Todos" itemValue="" />
+                            <f:selectItem itemLabel="Activo" itemValue="true" />
+                            <f:selectItem itemLabel="Inactivo" itemValue="false" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{semillero.estado ? 'Activo': 'Inactivo'}" />
+                </p:column>
+                <p:column style="vertical-align: top;width:100px" filterBy="#{semillero.idcategoria}" headerText="Categoria" filterMatchMode="in">
+                    <f:facet name="filter">
+                        <p:selectCheckboxMenu converter="categoriaConverter" label="Categoria" onchange="PF('listSemillero').filter()" >
+                            <f:selectItems value="#{consultarSemillero.listaCategoria}" var="categoria" itemLabel="#{categoria.nombrecategoria}" />
+                        </p:selectCheckboxMenu>
+                    </f:facet>
+                    <h:outputText value="#{semillero.idcategoria.nombrecategoria}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+        
+    </ui:define>
+
+    <ui:define name="footer">
+        
+    </ui:define>
+
+</ui:composition>

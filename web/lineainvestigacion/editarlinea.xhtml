@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <title>Editar Linea de Investigación</title>
+    </ui:define>
+
+    <ui:define name="header">
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:messages id="msgs" />
+
+            <p:dataTable style="font-size: medium" var="linea" editable="true" value="#{editarLineaBean.listaLineasInvestigacion}">}
+                <f:facet name="header">
+                    Editar Linea de Investigación
+                </f:facet>
+                <p:ajax event="rowEdit" listener="#{editarLineaBean.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{editarLineaBean.onRowCancel}" update=":form:msgs"/>
+                <p:column headerText="Nombre Linea de Investigación" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{linea.nombrelinea}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText  value="#{linea.nombrelinea}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Descripción Linea de Investigación">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{linea.descripcion}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText  value="#{linea.descripcion}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Grupo de Investigación al que Pertenece">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{linea.idgrupo.nombregrupo}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu value="#{linea.idgrupo}" converter="grupoConverter" style="width:100%">
+                                <f:selectItems value="#{editarLineaBean.listaGruposInvestigacion}" var="grupo" itemLabel="#{grupo.descripcion}" itemValue="#{grupo}" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+        
+    </ui:define>
+
+    <ui:define name="footer">
+        
+    </ui:define>
+
+</ui:composition>

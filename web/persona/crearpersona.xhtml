@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <title>Crear Persona</title>
+    </ui:define>
+
+    <ui:define name="header">
+        header
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:messages id="msgs" />
+            <p:panelGrid style="width: 100%"  id="grid" >
+                
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="docPersona" value="Documento Persona:"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText style="width: 100%" id="docPersona" value="#{crearPersonaBean.persona.documento}" required="true" requiredMessage="El Documento de la Persona es requerido">
+                            <p:ajax update="msgs" event="keyup"  />
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="tipoDoc" value="Tipo de Documento:" />
+                    </p:column>
+                    <p:column>
+                        <p:selectOneRadio columns="5"   id="tipoDoc" value="#{crearPersonaBean.persona.tipodocumento}" required="true" requiredMessage="El Tipo de Documento de la Persona es requerido" layout="grid">
+                            <f:selectItems value="#{crearPersonaBean.tipoDocumento}" var="tdoc" itemValue="#{tdoc}" itemLabel="#{tdoc}"/>
+                        </p:selectOneRadio>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="nombrePersona" value="Nombres:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText style="width: 100%" id="nombrePersona" value="#{crearPersonaBean.persona.nombres}"  required="true" requiredMessage="El nombre de la Persona es requerido"> 
+                            <p:ajax update="msgs" event="keyup"  />
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="apellidosPersona" value="Apellidos:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText style="width: 100%" id="apellidosPersona" value="#{crearPersonaBean.persona.apellidos}" required="true" requiredMessage="Los Apellidos de la Persona son requerido">  
+                            <p:ajax update="msgs" event="keyup"  />
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="telefonoPersona" value="Telefono:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText style="width: 100%" id="telefonoPersona" value="#{crearPersonaBean.persona.telefono}" required="true" requiredMessage="El telefono de la Persona es requerido">  
+                            <p:ajax update="msgs" event="keyup"  />
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="mailPersona" value="Correo Electrónico:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText style="width: 100%" id="mailPersona" value="#{crearPersonaBean.persona.correo}" validatorMessage="El Formato de E-mail no coincide" required="true" requiredMessage="El Correo Electrónico de la Persona es requerido">  
+                            <f:validateRegex pattern="^\ *([A-Za-z0-9-_]+(\.[A-Za-z0-9-_]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,}))*$"/>
+                            <p:ajax update="msgs" event="keyup"  />
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="2">
+                        <p:separator />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="usuarioPersona" value="Usuario:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText style="width: 100%" id="usuarioPersona" value="#{crearPersonaBean.persona.usuario}" required="true" requiredMessage="El Usuario de la Persona es requerido">  
+                            <p:ajax update="msgs" event="keyup"  />
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel style="width: 30%" for="contrasenaPersona" value="Contraseña:"/>
+                    </p:column>
+                    <p:column>
+                        <p:password style="width: 100%" id="contrasenaPersona" value="#{crearPersonaBean.persona.contrasena}" required="true" requiredMessage="La Contraseña de la Persona es requerido" validatorMessage="Longitud minima de 6 caracteres">
+                            <f:validateLength minimum="6" />
+                            <p:ajax update="msgs" event="keyup"  />
+                        </p:password>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:commandButton update="msgs" id="botonAgregarCentro" value="Guardar" action="#{crearPersonaBean.crearPersona(actionEvent)}" ></p:commandButton>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+        left
+    </ui:define>
+
+    <ui:define name="footer">
+        footer
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="header">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form enctype="multipart/form-data">
+            <p:messages id="msgs"/>
+            <p:panelGrid styleClass="panelcrearsemillero"  >
+                <f:facet name="header">
+                    <p:row>
+                        <p:column colspan="2">Crear Semillero</p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column styleClass="asd">
+                        <p:outputLabel for="nombreSemillero" value="Nombre de Semillero" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText style="width: 100%" id="nombreSemillero" value="#{crearSemillero.semilero.nombresemillero}" required="true" requiredMessage="El Nombre del Semillero de Investigación es Requerido" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="misionSemillero" value="Misión de Semillero" />
+                    </p:column>
+                    <p:column>
+                        <p:inputTextarea  style="width: 100%" id="misionSemillero"  value="#{crearSemillero.semilero.mision}" required="true" requiredMessage="La Misión del Semillero es Requerida" />
+                        <p:resizable for="misionSemillero" minWidth="640" maxWidth="640"  />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="visionSemillero" value="Visión de Semillero" />
+                    </p:column>
+                    <p:column>
+                        <p:inputTextarea style="width: 100%"  id="visionSemillero" autoResize="false" value="#{crearSemillero.semilero.vision}" required="true" requiredMessage="La Visión del Semillero es Requerida"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="nombreGrupo" value="Grupo de Investigación del Semillero" />
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu styleClass="algo" var="grupoInvestigacion" converter="grupoConverter" id="nombreGrupo" value="#{crearSemillero.semilero.idgrupo}" required="true" requiredMessage="Seleccione un Grupo de Investigación">
+                            <f:selectItem  itemLabel="Seleccione un Grupo de Investigación" itemValue="" />  
+                            <f:selectItems value="#{crearSemillero.listaGrupos}" var="grupo" itemLabel="#{grupo.nombregrupo}" itemValue="#{grupo}"/>
+                            <p:column >
+                                #{grupoInvestigacion.descripcion}
+                            </p:column>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="categoriaSemillero" value="Categoria de Semillero de Investigacion" />
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu styleClass="algo" var="categoria" converter="categoriaConverter" id="categoriaSemillero" value="#{crearSemillero.semilero.idcategoria}" required="true" requiredMessage="La Categoria del Semillero es Requerida">
+                            <f:selectItem  itemLabel="Seleccione La Categoria del Semillero" itemValue="" />  
+                            <f:selectItems value="#{crearSemillero.listaCategoria}" var="cat" itemLabel="#{cat.nombrecategoria}" itemValue="#{cat}"/>
+                            <p:column>
+                                #{categoria.nombrecategoria}
+                            </p:column>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Redes a las que Pertenece" for="checkRedes" />
+                    </p:column>
+                    <p:column>
+                        <p:selectManyCheckbox style="width: 100%" id="checkRedes" value="#{crearSemillero.semilero.redCollection}" converter="redConverter" layout="grid" columns="3" required="true" requiredMessage="Seleccione por lo menos una Red">
+                            <f:selectItems value="#{crearSemillero.listaRedes}" var="red" itemLabel="#{red.nombrered}" itemValue="#{red}" />
+                        </p:selectManyCheckbox>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="date" value="Fecha Conformación de Semillero"/>
+                    </p:column>
+                    <p:column>
+                        <p:calendar style="width: 100%" id="date" value="#{crearSemillero.semilero.fechaacta}" navigator="true" pattern="dd/MM/yyyy" mask="true" required="true" requiredMessage="La fecha de Conformación del Semillero es Requerida"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="actaSemillero" value="Acta de Conformación" />
+                    </p:column>
+                    <p:column>
+                        <p:fileUpload style="width: 100%" id="actaSemillero" validator="#{crearSemillero.validarArchivo}" value="#{crearSemillero.file}" mode="simple" required="true" requiredMessage="El acta de Conformación es Requerida"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+
+            <p:commandButton value="Guardar" actionListener="#{crearSemillero.guardar(eventListener)}" id="botonAgregarSemillero" ajax="false" />
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+
+    </ui:define>
+
+    <ui:define name="footer">
+
+    </ui:define>
+
+</ui:composition>

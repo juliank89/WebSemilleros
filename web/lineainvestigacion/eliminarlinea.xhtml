@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <title>Eliminar Linea de Investigación</title>
+    </ui:define>
+
+    <ui:define name="header">
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:messages id="msgs" />
+
+            <p:dataTable style="font-size: medium" id="dataLineas" var="linea" value="#{eliminarLineaBean.listaLineasInvestigacion}">
+                <f:facet name="header">
+                    Eliminar Linea de Investigación
+                </f:facet>
+                <p:column headerText="Nombre Linea de Investigación" >
+                    <h:outputText value="#{linea.nombrelinea}" />
+                </p:column>
+                <p:column headerText="Descripción Linea de Investigación">
+                    <h:outputText value="#{linea.descripcion}" />
+                </p:column>
+                <p:column headerText="Grupo de Investigación al que Pertenece">
+                    <h:outputText value="#{linea.idgrupo.nombregrupo}" />
+                </p:column>
+                <p:column style="width:34px;text-align: center">
+                    <p:commandButton icon="ui-icon-trash"  actionListener="#{eliminarLineaBean.eliminar(linea.idlinea)}" update=":form:msgs, :form:dataLineas">
+                        <p:confirm header="Confirmar Eliminación" message="¿Seguro que desea eliminar la linea de investigación?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <p:confirmDialog global="true" >
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+        
+    </ui:define>
+
+    <ui:define name="footer">
+        
+    </ui:define>
+
+</ui:composition>

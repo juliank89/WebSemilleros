@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <title>Eliminar Centro de Investigación</title>
+    </ui:define>
+
+    <ui:define name="header">
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:messages id="msgs" />
+
+            <p:dataTable style="width: 100%; font-size: medium" id="dataCentros" var="centro" value="#{borrarCentroBean.listaCentrosInvestigacion}">
+                <f:facet name="header">
+                    Eliminar Centro de Investigación
+                </f:facet>
+                <p:column headerText="Nombre Centro de Investigación">
+                    <h:outputText value="#{centro.nombrecentro}" />
+                </p:column>
+                <p:column headerText="Descripción Centro de Investigación">
+                    <h:outputText value="#{centro.descripcion}" />
+                </p:column>
+                <p:column style="width:34px">
+                    <p:commandButton icon="ui-icon-trash"  actionListener="#{borrarCentroBean.eliminar(centro.idcentro)}" update=":form:msgs, :form:dataCentros">
+                        <p:confirm header="Confirmar Eliminación" message="¿Seguro que desea eliminar el centro?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <p:confirmDialog global="true" >
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+        
+    </ui:define>
+
+    <ui:define name="footer">
+        
+    </ui:define>
+
+</ui:composition>

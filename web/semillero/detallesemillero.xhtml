@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:define name="head">
+        <title>Detalle Semillero</title>
+    </ui:define>
+
+    <ui:define name="header">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form"  >
+            <p:panelGrid  style="width:100%;font-size: medium" styleClass="paneldetallesemillero"  >
+                <f:facet name="header">
+                    <p:row>
+                        <p:column colspan="2">Datos Semillero</p:column>
+                    </p:row>
+                </f:facet>
+
+                <p:row>
+                    <p:column styleClass="asd">
+                        <h:outputText style="width: 25%" value="Nombre Semillero"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{detalleSemillero.sem.nombresemillero}" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText style=";width: 25%" value="Grupo de Investigación" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{detalleSemillero.sem.idgrupo.nombregrupo}" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText style="width: 25%" value="Categoria Semillero" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{detalleSemillero.sem.idcategoria.nombrecategoria}" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText style="width: 25%" value="Misión del Semillero" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{detalleSemillero.sem.mision}" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText style="width: 25%" value="Visión del Semillero" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{detalleSemillero.sem.vision}" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText style="width: 25%" value="Estado del Semillero" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText  value="#{detalleSemillero.sem.estado?'Activo': 'Inactivo'}" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputLabel style="width: 25%" value="Redes de Investigación"/>
+                    </p:column>
+                    <p:column>
+                        <ul>
+                            <c:forEach var="red" items="#{detalleSemillero.sem.redCollection}">
+                                <li style="margin-left: -25px"><p:outputLabel value="#{red.nombrered}" /></li>
+                            </c:forEach>
+                        </ul>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText style="width: 25%" value="fecha de Conformación del Semillero" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText style="width: 100%" id="date" value="#{detalleSemillero.sem.fechaacta}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText style="width: 25%" value="Acta de Conformación del Semillero" />                
+                    </p:column>
+                    <p:column>
+                        <p:link target="_blank" style="font-weight: bold" value="Descargar" href="#{FacesContext.getCurrentInstance().getExternalContext()}/upload#{detalleSemillero.sem.pathacta}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:separator/>
+            <p:dataTable id="tblProyectos" rendered="true" paginator="true" rows="1" value="#{detalleSemillero.sem.proyectosCollection}" var="proyecto" style="width: 100%" >
+                <f:facet name="header">
+                    Proyectos
+                </f:facet>
+                <p:column exportable="false" style="width:16px">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="Titulo del Proyecto">
+                    <p:outputLabel value="#{proyecto.nombreproyexto}"/>
+                </p:column>
+                <p:column headerText="Linea de Investigación">
+                    <p:outputLabel value="#{proyecto.idlinea.nombrelinea}"/>
+                </p:column>
+                <p:rowExpansion>
+                    <p:panelGrid id="detalleProyecto"  style="width:100%">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header alinearcentro">
+                                <h:outputText style="font-weight: bold;width: 75%;text-align: center" value="Titulo" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{proyecto.nombreproyexto}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header alinearcentro">
+                                <h:outputText style="font-weight: bold;width: 75%;text-align: center" value="Planteamiento" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{proyecto.planteamiento}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header alinearcentro">
+                                <h:outputText style="font-weight: bold;width: 75%;text-align: center" value="Introducción" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{proyecto.introduccion}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header alinearcentro">
+                                <h:outputText style="font-weight: bold;width: 75%;text-align: center" value="Justificación" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{proyecto.justificacion}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header alinearcentro">
+                                <h:outputText style="font-weight: bold;width: 75%;text-align: center" value="Objetivo General del Proyecto" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="#{proyecto.objetivogeneral}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header alinearcentro">
+                                <h:outputText style="font-weight: bold;width: 75%;" value="Objetivos Especificos del Proyecto" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:dataList styleClass="quitaborde" value="#{proyecto.objetivosProyectoCollection}" var="pros">
+                                    #{pros.nombreobjetivo}
+                                </p:dataList>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header alinearcentro">
+                                <h:outputText style="font-weight: bold;width: 75%;" value="Metodologia" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel escape="false" value="#{proyecto.metodologia}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header alinearcentro">
+                                <h:outputText style="font-weight: bold;width: 75%;" value="Marco Teorico" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel escape="false" value="#{proyecto.marcoTeorico}"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <h:commandLink id="pdf" value="Exportar">
+                        <p:printer  target="detalleProyecto"  />
+                    </h:commandLink>
+                </p:rowExpansion>
+            </p:dataTable>
+            <p:commandButton process="@this" actionListener="#{detalleSemillero.redireccionProyecto}" value="Crear"/>
+            <p:separator/>
+            <p:dataTable id="tblProductos" rendered="true" paginator="true" rows="1" value="#{detalleSemillero.sem.productosCollection}" var="producto" style="width: 100%" >
+                <f:facet name="header">
+                    Productos
+                </f:facet>
+                <p:column headerText="Titulo del Proyecto">
+                    <p:outputLabel value="#{producto.nombreproducto}"/>
+                </p:column>
+                <p:column headerText="Linea de Investigación">
+                    <p:outputLabel value="#{producto.tipoproducto.nombreproducto}"/>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{producto.descripcion}" />
+                </p:column>
+            </p:dataTable>
+            <p:commandButton process="@this" actionListener="#{detalleSemillero.redireccionProducto}" value="Crear"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+
+    </ui:define>
+
+    <ui:define name="footer">
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="head">
+        <title>Editar Red de Investigación</title>
+    </ui:define>
+
+    <ui:define name="header">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:messages id="msgs" />
+            <p:dataTable id="formRedes" style="font-size: medium" var="red" editable="true" value="#{editarRedBean.listaRedesInvestigacion}">
+                <f:facet name="header">
+                    Editar Redes de Investigación
+                </f:facet>
+                <p:ajax event="rowEdit"  listener="#{editarRedBean.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{editarRedBean.onRowCancel}" update=":form:msgs"/>
+                <p:column style="width:16px">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="Nombre Red de Investigación" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{red.nombrered}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText  value="#{red.nombrered}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Descripción Red de Investigación">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{red.descripcion}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText  value="#{red.descripcion}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Url Red de Investigación">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{red.url}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText  value="#{red.url}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Areas Tematicas">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <p:dataList var="area" styleClass="quitabordes" value="#{red.areatematicaCollection}" >
+                                <p:outputLabel value="#{area.nombrearea}"/>
+                            </p:dataList>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectCheckboxMenu style="width: 100%" converter="areaConverter" value="#{editarRedBean.listaAreasSeleccion}" label="Areas Temáticas" required="true" requiredMessage="Seleccione por lo menos un área" id="checkAreas" >
+                                <f:selectItems value="#{editarRedBean.listaAreas}" var="area" itemLabel="#{area.nombrearea}" itemValue="#{area}"  />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+                <p:rowExpansion>
+                    <p:dataTable id="formInterno" editable="true" var="contacto" value="#{red.contactoCollection}">
+
+                        <p:ajax event="rowEdit" listener="#{editarRedBean.onRowEditContacto}" update=":form:msgs"/>
+                        <p:ajax event="rowEditCancel" listener="#{editarRedBean.onRowCancel}" update=":form:msgs"/>
+                        <f:facet name="header">
+                            Contactos
+                        </f:facet>
+                        <p:column headerText="Nombre Contacto">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <p:outputLabel value="#{contacto.nombre}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{contacto.nombre}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Telefono Contacto">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <p:outputLabel value="#{contacto.telefono}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{contacto.telefono}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Dirección Contacto">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <p:outputLabel value="#{contacto.direccion}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{contacto.direccion}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Mail Contacto">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <p:outputLabel value="#{contacto.mail}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{contacto.mail}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:32px">
+                            <p:rowEditor />
+                        </p:column>
+                        <p:column style="width:34px;text-align: center">
+                            <p:commandButton process="@this" icon="ui-icon-trash"  actionListener="#{editarRedBean.eliminar(contacto.idcontacto)}" update=":form:msgs, formInterno">
+                                <p:confirm header="Confirmar Eliminación" message="¿Seguro que desea eliminar el contacto de la red?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton type="button" process="@this" update=":form:paneldialog" actionListener="#{editarRedBean.fdf(red)}"  onclick="PF('dlg').show();" value="Agregar"/>
+                </p:rowExpansion>
+            </p:dataTable>
+            <p:confirmDialog global="true" >
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+            <p:dialog  modal="true" draggable="false" header="Crear Contacto " widgetVar="dlg" resizable="false">
+                <p:outputPanel id="paneldialog">
+                    <p:outputLabel value="#{editarRedBean.redas.nombrered}"/>
+                    <p:panelGrid id="formContacto" columns="2">
+                        <p:outputLabel for="nContacto" value="Nombre de Contacto"/>
+                        <p:inputText id="nContacto"  value="#{editarRedBean.auxcontacto.nombre}"/>
+
+                        <p:outputLabel for="tContacto" value="Telefono de Contacto"/>
+                        <p:inputText id="tContacto"  value="#{editarRedBean.telefonoContacto}"  validatorMessage="Formato de Telefono Incorrecto">
+                            <f:validateRegex pattern="^\ *([0-9]+)*$"/>
+                            <p:ajax event="keyup" update="msgs"/>
+                        </p:inputText>
+
+                        <p:outputLabel for="dContacto" value="Dirección de Contacto"/>
+                        <p:inputText id="dContacto" value="#{editarRedBean.auxcontacto.direccion}"/>
+
+                        <p:outputLabel for="mContacto" value="Mail de Contacto"/>
+                        <p:inputText id="mContacto" value="#{editarRedBean.auxcontacto.mail}" validatorMessage="El Formato de E-mail no coincide">
+                            <f:validateRegex pattern="^\ *([A-Za-z0-9-_]+(\.[A-Za-z0-9-_]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,}))*$"/>
+                            <p:ajax  event="keyup" update="msgs"/>
+                        </p:inputText>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{editarRedBean.crearContacto}" value="Guardar" />
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+
+    </ui:define>
+
+    <ui:define name="footer">
+
+    </ui:define>
+
+</ui:composition>

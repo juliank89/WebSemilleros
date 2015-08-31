@@ -1,0 +1,43 @@
+body{    
+    margin: 0 auto;
+    width: 1000px;
+    border: solid;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+    display: block;
+}
+
+/* Header
+-----------------------------------------------------------------------------*/
+.header {        
+    padding: 1px 1px 1px 1px;
+    border-bottom: solid;
+    height: 150px;
+    width: 100%;
+}
+
+/* Navigation
+-----------------------------------------------------------------------------*/
+.navigation {
+    float: left;
+    width: 100%;
+    border-bottom: solid;
+}
+/* Content
+-----------------------------------------------------------------------------*/
+.content {
+    width: 100%;
+    border-bottom: solid;
+    float: left;
+    overflow: hidden;
+}
+
+/* Footer
+-----------------------------------------------------------------------------*/
+.footer {
+    
+    text-align: center;
+    clear: both;
+    height: 40px;
+}

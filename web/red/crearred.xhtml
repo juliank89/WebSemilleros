@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <title>Crear Red de Investigación</title>
+    </ui:define>
+
+    <ui:define name="header">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:panel id="panelwizard"  style="font-size: medium; "  header="Crear Red de Investigación">
+                <p:wizard  flowListener="#{crearRedBean.onFlowProcess}"  nextLabel="Siguiente" backLabel="Atras" >
+
+                    <p:tab id="red" title="Red">
+                        <p:panel header="Datos de Red">
+                            <p:messages id="msgs" />
+                            <h:panelGrid columns="2" style="width: 100%">
+
+                                <p:column  >
+                                    <p:outputLabel for="nombreRed" value="Nombre de Red:" />
+                                </p:column>
+                                <p:column >
+                                    <p:inputText style="width: 100%" id="nombreRed" value="#{crearRedBean.red.nombrered}"  required="true" requiredMessage="El nombre de la red es requerido"> 
+                                        <p:ajax update="msgs" event="keyup" />
+                                    </p:inputText>
+                                </p:column>
+
+                                <p:column>
+                                    <p:outputLabel for="descripcionRed" value="Descripción de Red:" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputTextarea style="width: 100%"  id="descripcionRed" value="#{crearRedBean.red.descripcion}"> 
+
+                                    </p:inputTextarea>
+                                </p:column>
+
+                                <p:column>
+                                    <p:outputLabel for="urlRed" value="Página WEB de Red:" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText style="width: 100%"  id="urlRed" value="#{crearRedBean.red.url}" required="true" requiredMessage="La página web de la red es requerido" validatorMessage="Formato de URL Incorrecto" > 
+                                        <f:validateRegex pattern="^((ht|f)tp(s?)\:\/\/)*[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)*?$" />
+                                        <p:ajax update="msgs" event="keyup" />
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel for="contexto" value="Contexto de la Red:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:selectManyCheckbox required="true" requiredMessage="El contexto de la red es Requerido" id="contexto" value="#{crearRedBean.contexto}">
+                                        <f:selectItem itemLabel="Nacional" itemValue="N" />
+                                        <f:selectItem itemLabel="Internacional" itemValue="I" />
+                                        <p:ajax update="msgs" event="keyup" />
+                                    </p:selectManyCheckbox>
+                                </p:column>
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+                    <p:tab id="areas" title="Áreas Temáticas">
+                        <p:panel header="Áreas Temáticas">
+                            <p:messages />
+                            <h:panelGrid columns="2">
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel for="checkAreas" value="Áreas Temáticas de la Red:"/>
+                                    </p:column>
+                                    <p:column >
+                                        <p:selectManyCheckbox converter="areaConverter" value="#{crearRedBean.listaAreasTematicasSeleccion}" required="true" requiredMessage="Seleccione por lo menos un área" id="checkAreas" layout="grid" columns="4">
+                                            <f:selectItems value="#{crearRedBean.listaAreasTematicas}" var="area" itemLabel="#{area.nombrearea}" itemValue="#{area}" />
+
+                                        </p:selectManyCheckbox>
+                                    </p:column>
+                                </p:row>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab id="contacto" title="Contacto">
+                        <p:panel header="Contacto de Red">
+                            <p:messages id="msgContacto" />
+                            <p:dataTable  value="#{crearRedBean.listaContactos}" var="con" >
+                                <p:column headerText="Nombre de Contacto">
+                                    <h:outputText value="#{con.nombre}"/>
+                                </p:column>
+                                <p:column headerText="Teléfono de Contacto">
+                                    <h:outputText value="#{con.telefono}"/>
+                                </p:column>
+                                <p:column headerText="Dirección de Contacto">
+                                    <h:outputText value="#{con.direccion}"/>
+                                </p:column>
+                                <p:column headerText="Mail de Contacto">
+                                    <h:outputText value="#{con.mail}"/>
+                                </p:column>
+                            </p:dataTable>
+                            
+                            <p:panelGrid id="formContacto" columns="2">
+                                <p:outputLabel for="nContacto" value="Nombre de Contacto"/>
+                                <p:inputText id="nContacto"  value="#{crearRedBean.cont.nombre}"/>
+
+
+                                <p:outputLabel for="tContacto" value="Telefono de Contacto"/>
+                                <p:inputText id="tContacto"  value="#{crearRedBean.telefonoContacto}"  validatorMessage="Formato de Telefono Incorrecto">
+                                    <f:validateRegex pattern="^\ *([0-9]+)*$"/>
+                                    <p:ajax event="keyup" update="msgContacto"/>
+                                </p:inputText>
+
+                                <p:outputLabel for="dContacto" value="Dirección de Contacto"/>
+                                <p:inputText id="dContacto" value="#{crearRedBean.cont.direccion}"/>
+
+                                <p:outputLabel for="mContacto" value="Mail de Contacto"/>
+                                <p:inputText id="mContacto" value="#{crearRedBean.cont.mail}" validatorMessage="El Formato de E-mail no coincide">
+                                    <f:validateRegex pattern="^\ *([A-Za-z0-9-_]+(\.[A-Za-z0-9-_]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,}))*$"/>
+                                    <p:ajax  event="keyup" update="msgContacto"/>
+                                </p:inputText>
+
+                            </p:panelGrid>
+                            <p:commandButton value="Agregar" actionListener="#{crearRedBean.nuevoContacto(actionEvent)}" ajax="false" partialSubmit="true" process="formContacto" >
+
+                            </p:commandButton>
+                        </p:panel>
+                    </p:tab>
+
+
+                    <p:tab id="confirm" title="Confirmación">
+                        <p:panel header="Confirmación">
+                            <p:messages id="msgConfirm"/>
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Nombre de Red: " />
+                                <h:outputText value="#{crearRedBean.red.nombrered}" />
+
+                                <h:outputText value="Descripción de Red: " />
+                                <h:outputText value="#{crearRedBean.red.descripcion}" />
+
+                                <h:outputText value="Contexto de Red " />
+                                <h:outputText value="#{crearRedBean.contextoRed}" />
+
+                                <h:outputText value="Pagina Web de Red " />
+                                <h:outputText value="#{crearRedBean.red.url}" />
+                            </p:panelGrid>
+                            <p:separator/>
+                            <p:dataList value="#{crearRedBean.red.areatematicaCollection}" var="areasSeleccion">
+                                <f:facet name="header">
+                                    Áreas Temáticas
+                                </f:facet>
+                                <h:outputText value="#{areasSeleccion.nombrearea}"/>
+
+                            </p:dataList>
+                            <p:separator/>
+                            <p:dataTable  value="#{crearRedBean.listaContactos}" var="con" >
+                                <f:facet name="header">
+                                    Contactos
+                                </f:facet>
+                                <p:column headerText="Nombre de Contacto">
+                                    <h:outputText value="#{con.nombre}"/>
+                                </p:column>
+                                <p:column headerText="Teléfono de Contacto">
+                                    <h:outputText value="#{con.telefono}"/>
+                                </p:column>
+                                <p:column headerText="Dirección de Contacto">
+                                    <h:outputText value="#{con.direccion}"/>
+                                </p:column>
+                                <p:column headerText="Mail de Contacto">
+                                    <h:outputText value="#{con.mail}"/>
+                                </p:column>
+                            </p:dataTable>
+                            <p:commandButton value="guardar" update="msgConfirm" actionListener="#{crearRedBean.CrearRed(actionEvent)}"/>
+                        </p:panel>
+                    </p:tab>
+                </p:wizard>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+
+    </ui:define>
+
+    <ui:define name="footer">
+
+    </ui:define>
+
+</ui:composition>

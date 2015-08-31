@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <title>Consultar Semilleros</title>
+    </ui:define>
+
+    <ui:define name="header">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:dataTable id="dataListaSemilleros" widgetVar="listSemillero" var="semillero" value="#{consultarSemillero.listaSemilleros}"
+                         paginator="true" rows="20">
+                <p:column style="vertical-align: top;width:190px" filterBy="#{semillero.nombresemillero}" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre" />
+                    </f:facet>
+                    <h:outputText value="#{semillero.nombresemillero}" />
+                </p:column>
+                <p:column style="vertical-align: top" filterBy="#{semillero.idgrupo}" headerText="Grupo de Investigación" filterMatchMode="in">
+                    <f:facet name="filter">
+                        <p:selectCheckboxMenu converter="grupoConverter" label="Grupo" onchange="PF('listSemillero').filter()" >
+                            <f:selectItems value="#{consultarSemillero.listaGrupos}" var="grupo"  itemLabel="#{grupo.nombregrupo}" />
+                        </p:selectCheckboxMenu>
+                    </f:facet>
+                    <h:outputText value="#{semillero.idgrupo.nombregrupo}" />
+                </p:column>
+                <p:column style="vertical-align: top;width:80px" filterMatchMode="exact" headerText="Estado" filterBy="#{semillero.estado}">
+                    <f:facet name="filter" >
+                        <p:selectOneMenu onchange="PF('listSemillero').filter()">
+                            <f:converter converterId="javax.faces.Boolean" />
+                            <f:selectItem itemLabel="Todos" itemValue="" />
+                            <f:selectItem itemLabel="Activo" itemValue="true" />
+                            <f:selectItem itemLabel="Inactivo" itemValue="false" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{semillero.estado ? 'Activo': 'Inactivo'}" />
+                </p:column>
+                <p:column style="vertical-align: top;width:100px" filterBy="#{semillero.idcategoria}" headerText="Categoria" filterMatchMode="in">
+                    <f:facet name="filter">
+                        <p:selectCheckboxMenu converter="categoriaConverter" label="Categoria" onchange="PF('listSemillero').filter()" >
+                            <f:selectItems value="#{consultarSemillero.listaCategoria}" var="categoria" itemLabel="#{categoria.nombrecategoria}" />
+                        </p:selectCheckboxMenu>
+                    </f:facet>
+                    <h:outputText value="#{semillero.idcategoria.nombrecategoria}" />
+                </p:column>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":form:semilleroDetalle"  oncomplete="PF('semilleroDialog').show()" icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{semillero}" target="#{consultarSemillero.semilleroSeleccionado}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <p:dialog header="Informacion Semillero " widgetVar="semilleroDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="90%">
+
+                <p:outputPanel id="semilleroDetalle" style="text-align:center;">
+                    <p:panelGrid style="width:100%">
+                        <p:row>
+                            <p:column style="width: 25%">
+                                <h:outputText style="font-weight: bold" value="Nombre Semillero" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{consultarSemillero.semilleroSeleccionado.nombresemillero}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 25%">
+                                <h:outputText style="font-weight: bold" value="Misión del Semillero" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{consultarSemillero.semilleroSeleccionado.mision}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 25%">
+                                <h:outputText style="font-weight: bold" value="Visión del Semillero" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{consultarSemillero.semilleroSeleccionado.vision}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 25%">
+                                <h:outputText style="font-weight: bold" value="Fecha de Conformación del Semillero" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{consultarSemillero.semilleroSeleccionado.fechaacta}" >
+                                    <f:convertDateTime  pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 25%">
+                                <h:outputText style="font-weight: bold" value="Acta de Conformación del Semillero" />
+                            </p:column>
+                            <p:column>
+                                <p:link target="_blank" style="font-weight: bold" value="Descargar" href="#{FacesContext.getCurrentInstance().getExternalContext()}/upload#{consultarSemillero.semilleroSeleccionado.pathacta}"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:separator/>
+                    <p:dataTable var="proyecto" value="#{consultarSemillero.semilleroSeleccionado.proyectosCollection}" >
+                        <f:facet name="header">
+                            Proyectos
+                        </f:facet>
+                        <p:column headerText="Titulo del Proyecto">
+                            <h:outputText value="#{proyecto.nombreproyexto}"/>
+                        </p:column>
+                        <p:column headerText="Resumen">
+                            <h:outputText value="#{proyecto.resumen}"/>
+                        </p:column>
+                        <p:column headerText="Linea de Investigacion">
+                            <h:outputText value="#{proyecto.idlinea.nombrelinea}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:separator/>
+                    <p:dataTable var="producto" value="#{consultarSemillero.semilleroSeleccionado.productosCollection}" >
+                        <f:facet name="header">
+                            Productos
+                        </f:facet>
+                        <p:column headerText="Nombre del Producto">
+                            <h:outputText value="#{producto.nombreproducto}"/>
+                        </p:column>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                        <p:column headerText="Descripcion">
+                            <h:outputText value="#{producto.descripcion}"/>
+                        </p:column>
+                        <p:column headerText="Tipo de Producto">
+                            <h:outputText value="#{producto.tipoproducto.nombreproducto}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                <p:separator/>
+                <p:commandButton value="Abrir" action="detallesemillero?faces-redirect=true" ajax="false" />
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+
+    </ui:define>
+
+    <ui:define name="footer">
+
+    </ui:define>
+
+</ui:composition>

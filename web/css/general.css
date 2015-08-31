@@ -1,0 +1,42 @@
+/*body {
+    font-size: 12px;
+    font-family: Helvetica, Arial, sans-serif;
+}*/
+
+.quitabordes tr, .quitabordes td{
+    border: none !important;
+}
+
+.panelpro .ui-widget-content .asdsadasd {
+    text-align: center !important;
+}
+
+.ui-panel-titlebar {
+    text-align: center ;
+}
+
+.quitabordes{
+    border: none !important;
+}
+
+.quitabordes .ui-widget-content{
+    border: none !important;
+}
+
+.paneldetallesemillero .ui-widget-content .asd{
+    width: 25%;
+}
+
+.panelcrearsemillero {
+    width: 100%;
+    font-size: medium;
+}
+
+    .panelcrearsemillero .ui-widget-content .asd{
+        width: 33%;
+    }
+
+.algo{
+    width: 100% !important;
+}
+

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <title>Crear Centro de Investigación</title>
+    </ui:define>
+
+    <ui:define name="header">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:messages id="msgs" />
+            <p:panelGrid style="width: 100%; font-size: medium" id="grid" columns="2">
+                <f:facet name="header">
+                    Crear Centro de Investigación
+                </f:facet>
+                <p:outputLabel for="nombreCentro" value="Nombre del Centro de Investigación:" />
+                <p:inputText style="width: 100%" id="nombreCentro" value="#{crearCentroBean.centroInvestigacion.nombrecentro}"  required="true" requiredMessage="El nombre del centro de investigación es requerido"> 
+                    <p:ajax update="msgs" event="keyup"  />
+                </p:inputText>
+
+                <p:outputLabel for="descripcionCentro" value="Descripción:" />
+                <p:inputText style="width: 100%" id="descripcionCentro" value="#{crearCentroBean.centroInvestigacion.descripcion}" />
+
+            </p:panelGrid>
+            <p:commandButton update="msgs" id="botonAgregarCentro" value="Guardar" actionListener="#{crearCentroBean.CrearCentro(actionEvent)}"></p:commandButton>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+        
+    </ui:define>
+
+    <ui:define name="footer">
+        
+    </ui:define>
+
+</ui:composition>

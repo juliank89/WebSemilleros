@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="head">
+        <title>Consultar Redes de Investigación</title>
+    </ui:define>
+
+    <ui:define name="header">
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:messages id="msgs" />
+
+            <p:dataTable style="font-size: medium" var="red" value="#{consultarRedBean.listaRedesInvestigacion}">
+                <f:facet name="header">
+                    Redes de Investigación
+                </f:facet>
+                <p:column style="width:16px">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="Nombre Red de Investigación" >
+                    <h:outputText value="#{red.nombrered}" />
+                </p:column>
+                <p:column headerText="Descripción Red de Investigación" >
+                    <h:outputText value="#{red.descripcion}" />
+                </p:column>
+                <p:column headerText="Url Red de Investigación" >
+                    <h:outputText value="#{red.url}" />
+                </p:column>
+                <p:column headerText="Areas Tematicas">
+                    <p:dataList styleClass="quitabordes" var="area" value="#{red.areatematicaCollection}" >
+                        #{area.nombrearea}
+                    </p:dataList>
+                </p:column>
+                <p:column headerText="Contexto">
+                    <p:outputLabel value="#{red.contexto.equalsIgnoreCase('A')?'Nacional e Internacional':red.contexto.equalsIgnoreCase('N')?'Nacional':'Internacional'}"/>
+                </p:column>
+                <p:rowExpansion>
+                    <p:dataTable var="contacto" value="#{red.contactoCollection}">
+                        <f:facet name="header">
+                            Contactos
+                        </f:facet>
+                        <p:column headerText="Nombre Contacto">
+                            <p:outputLabel value="#{contacto.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Telefono Contacto">
+                            <p:outputLabel value="#{contacto.telefono}"/>
+                        </p:column>
+                        <p:column headerText="Dirección Contacto">
+                            <p:outputLabel value="#{contacto.direccion}"/>
+                        </p:column>
+                        <p:column headerText="Mail Contacto">
+                            <p:outputLabel value="#{contacto.mail}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
+            </p:dataTable>
+        </h:form>
+
+    </ui:define>
+
+    <ui:define name="left">
+        
+    </ui:define>
+
+    <ui:define name="footer">
+        
+    </ui:define>
+
+</ui:composition>

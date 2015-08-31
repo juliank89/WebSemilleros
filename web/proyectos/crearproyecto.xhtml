@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../templates/templategeneral.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="head">
+        <title>Crear Proyecto</title>
+    </ui:define>
+
+    <ui:define name="header">
+        header
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:messages id="msgs" />
+            <p:wizard nextLabel="Siguiente" backLabel="Atras" flowListener="#{detalleSemillero.onFlowProcess}">
+                <p:tab id="datos" title="Datos Generales">
+                    <p:panel header="Datos Generales">
+                        <p:messages />
+                        <h:panelGrid   columns="2">
+
+                            <p:outputLabel for="lineaProyecto" value="Linea del proyecto" />
+                            <p:selectOneMenu  var="lineaInvestigacion" converter="lineaConverter" id="lineaProyecto" value="#{detalleSemillero.proyectoCrear.idlinea}" required="true" requiredMessage="Seleccione una Linea de Investigación">
+                                <f:selectItem  itemLabel="Seleccione un Grupo de Investigación" itemValue="" />  
+                                <f:selectItems value="#{detalleSemillero.sem.idgrupo.lineainvestigacionCollection}" var="linea" itemLabel="#{linea.nombrelinea}" itemValue="#{linea}"/>
+                                <p:column >
+                                    #{lineaInvestigacion.nombrelinea}
+                                </p:column>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="tituloProyecto" value="Titulo del Proyecto" />
+                            <p:inputText required="true" requiredMessage="El Titulo del Proyecto es Requerido" id="tituloProyecto" value="#{detalleSemillero.proyectoCrear.nombreproyexto}" style="width: 100%" />
+
+                            <p:outputLabel for="planteamientoProyecto" value="Planteamiento del Problema" />
+                            <p:inputTextarea required="true" requiredMessage="El Planteamiento del Proyecto es Requerida" id="planteamientoProyecto" value="#{detalleSemillero.proyectoCrear.planteamiento}" autoResize="false" style="width: 100%" />
+
+                            <p:outputLabel for="introduccionProyecto" value="Introducción" />
+                            <p:inputTextarea required="true" requiredMessage="La Introducción del Proyecto es Requerida" id="introduccionProyecto" value="#{detalleSemillero.proyectoCrear.introduccion}" autoResize="false" style="width: 100%" />
+
+                            <p:outputLabel for="justificacionProyecto" value="Justificación" />
+                            <p:inputTextarea required="true" requiredMessage="La Justificación del Proyecto es Requerida" id="justificacionProyecto" value="#{detalleSemillero.proyectoCrear.justificacion}" autoResize="false" style="width: 100%" />
+
+                        </h:panelGrid>
+                    </p:panel>
+
+                </p:tab>
+                <p:tab id="Objetivos" title="Objetivos">
+                    <p:panel header="Objetivos">
+                        <p:messages />
+                        <h:panelGrid  columns="2">
+                            <p:outputLabel for="obGeneralProyecto" value="Objetivo General" />
+                            <p:inputText id="obGeneralProyecto" value="#{detalleSemillero.proyectoCrear.objetivogeneral}" />
+                        </h:panelGrid>
+                        <p:dataTable rendered="true" id="formEspecificos" var="especifico" value="#{detalleSemillero.listaObjetivosProyecto}" >
+                            <f:facet name="header">
+                                Objetivos Específicos
+                            </f:facet>
+                            <p:column>
+                                <h:outputText value="#{especifico.nombreobjetivo}" />
+                            </p:column>
+                            <p:column style="width:4%;text-align: center">
+                                <p:commandButton icon="ui-icon-trash" actionListener="#{detalleSemillero.eliminarEspecifico(especifico)}" update="formEspecificos"/>
+                            </p:column>
+                        </p:dataTable>
+
+                        <h:panelGrid  columns="2">
+                            <p:outputLabel for="obEspecificosProyecto" value="Objetivo Específico" />
+                            <p:inputText id="obEspecificosProyecto" value="#{detalleSemillero.objetivoProyecto}" />
+
+                            <p:commandButton value="Agregar Objetivo Específico" actionListener="#{detalleSemillero.agregarEspecificos(detalleSemillero.objetivoProyecto)}" update="formEspecificos" />
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="metodologia" title="Metodologia">
+                    <p:panel header="Metodologia">
+                        <p:messages />
+                        <p:editor  required="true" requiredMessage="La Metodologia del Proyecto es Requerida" id="metodologiaProyecto" value="#{detalleSemillero.proyectoCrear.metodologia}" />
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="marco" title="Marco Teórico">
+                    <p:panel header="Marco Teórico">
+
+                        <p:editor required="true" requiredMessage="El Marco Teórico del Proyecto es Requerido"  id="marcoTeorico" value="#{detalleSemillero.proyectoCrear.marcoTeorico}" />
+                    </p:panel>
+                </p:tab>
+
+                <p:tab title="Confirmación">
+                    <p:panel header="Confirmación">
+                        <p:panelGrid style="width:100%">
+                            <p:row>
+                                <p:column style="font-weight: bold;width:30%">
+                                    <p:outputLabel  value="Titulo del Proyecto" />
+                                </p:column>
+                                <p:column style="width:70%">
+                                    <p:outputLabel  value="#{detalleSemillero.proyectoCrear.nombreproyexto}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;width:30%">
+                                    <p:outputLabel  value="Planteamiento del Problema" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel  value="#{detalleSemillero.proyectoCrear.planteamiento}"  />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;width:30%">
+                                    <p:outputLabel value="Introducción" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel  value="#{detalleSemillero.proyectoCrear.introduccion}"  />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;width:30%">
+                                    <p:outputLabel  value="Justificación" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel  value="#{detalleSemillero.proyectoCrear.justificacion}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;width:30%">
+                                    <p:outputLabel value="Objetivo General" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel value="#{detalleSemillero.proyectoCrear.objetivogeneral}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;width:30%">
+                                    <p:outputLabel value="Objetivos Especificos" />
+                                </p:column>
+                                <p:column>
+                                    <ul>
+                                        <c:forEach var="obesp" items="#{detalleSemillero.listaObjetivosProyecto}">
+                                            <li style="margin-left: -25px"><p:outputLabel value="#{obesp.nombreobjetivo}" /></li>
+                                        </c:forEach>
+                                    </ul>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;width:30%">
+                                    <p:outputLabel  value="Metodologia" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel escape="false" value="#{detalleSemillero.proyectoCrear.metodologia}"  />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="font-weight: bold;width:30%">
+                                    <p:outputLabel  value="Marco Teórico" />
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel escape="false" value="#{detalleSemillero.proyectoCrear.marcoTeorico}" />
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:commandButton value="Submit" actionListener="#{detalleSemillero.saveProyecto}" ajax="false"/>
+                    </p:panel>
+                </p:tab>
+            </p:wizard>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="left">
+        left
+    </ui:define>
+
+    <ui:define name="footer">
+        footer
+    </ui:define>
+</ui:composition>
