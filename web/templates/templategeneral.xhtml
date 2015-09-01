@@ -9,28 +9,33 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" type="text/css" href="/WebSemilleros/css/template.css"></link>
         <link rel="stylesheet" type="text/css" href="/WebSemilleros/css/general.css"></link>
-        <script src="/WebSemilleros/js/prefixfree.min.js"></script>
+        
         <ui:insert name="head"></ui:insert>
     </h:head>
 
     <h:body class="body">
-        <header class="header">
-            <ui:insert name="header"></ui:insert>
-        </header>
-        <nav class="navigation">
-            <h:form style="margin: 0 auto !important">
-                
-                <p:menubar style="font-size: medium" model="#{menuBean.model}"  />
+        <div class="wrapper">
+            <header class="header">
+                <ui:insert name="header"></ui:insert>
+            </header>
+            <nav class="navigation">
+                <h:form style="margin: 0 auto !important">
 
-                <ui:insert name="left"></ui:insert>
-            </h:form>
-        </nav>
+                    <p:menubar style="font-size: medium" model="#{menuBean.model}"  />
 
-        <main class="content">
-            <ui:insert name="content"></ui:insert>
-        </main>
+                    <ui:insert name="left"></ui:insert>
+                </h:form>
+            </nav>
+
+            <section class="content">
+                asd
+                <ui:insert name="content"></ui:insert>
+            </section>
+        </div>
+        
         <footer class="footer">
             <ui:insert name="footer"></ui:insert>
+            sdfsd
         </footer>
     </h:body>
 </html>
